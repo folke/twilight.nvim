@@ -9,6 +9,7 @@ M.enabled = false
 
 function M.enable()
   if not M.enabled then
+    config.colors()
     M.enabled = true
     -- HACK: use defer_fn since TreeSitter is doing something that breaks the dimmers
     vim.cmd([[
@@ -16,6 +17,7 @@ function M.enable()
           autocmd!
           autocmd BufWritePost,CursorMoved,CursorMovedI,WinScrolled * lua require("twilight.view").update()
           autocmd BufWritePost * lua vim.defer_fn(function()require("twilight.view").update()end, 0)
+          autocmd ColorScheme * lua require("twilight.config").colors()
         augroup end]])
     M.started = true
     M.update()

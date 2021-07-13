@@ -30,6 +30,9 @@ function M.setup(options)
   for _, value in pairs(M.options.expand) do
     M.expand[value] = true
   end
+end
+
+function M.colors()
   local fg = "#ffffff"
   for _, color in pairs(M.options.dimming.color) do
     if color:sub(1, 1) == "#" then
@@ -43,7 +46,8 @@ function M.setup(options)
     end
   end
   local normal = util.get_hl("Normal")
-  local dimmed = util.blend(fg, normal.background, M.options.dimming.alpha)
+  local bg = (normal and normal.background) or "#000000"
+  local dimmed = util.blend(fg, bg, M.options.dimming.alpha)
   vim.cmd("highlight! def Twilight guifg=" .. dimmed)
 end
 
