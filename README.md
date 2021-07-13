@@ -81,7 +81,7 @@ You can manually trigger **Twilight** using the commands:
 - `TwilightEnable`: enable twilight
 - `TwilightDisable`: disable twilight
 
-### Zen Mode Integration
+## 🧘 Zen Mode Integration
 
 If you have [zen-mode](https://github.com/folke/zen-mode.nvim) installed, then **Twilight**
 is activated automatically. Refer to the Zen Mode documentation to disable.
