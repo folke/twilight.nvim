@@ -51,7 +51,7 @@ EOF
 
 ## ⚙️ Configuration
 
-Todo comes with the following defaults:
+Twilight comes with the following defaults:
 
 ```lua
 {
