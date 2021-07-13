@@ -7,6 +7,9 @@ but uses [TreeSitter](https://github.com/nvim-treesitter/nvim-treesitter) for be
 
 Pairs well with [zen-mode](https://github.com/folke/zen-mode.nvim).
 
+![image](https://user-images.githubusercontent.com/292349/125419804-051321c2-d040-41c8-93fc-834b5f1098e3.png)
+
+
 ## ⚡️ Requirements
 
 - Neovim >= 0.5.0
