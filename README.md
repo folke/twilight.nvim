@@ -1,6 +1,6 @@
 # 🌅 Twilight
 
-**Twilight** is a Lua plugin for Neovim 0.5 that only highlights the code under the cursor and dims the rest.
+**Twilight** is a Lua plugin for Neovim 0.5 that dims inactive portions of the code you're editing.
 
 The plugin was heavily inspired by [Limelight](https://github.com/junegunn/limelight.vim),
 but uses [TreeSitter](https://github.com/nvim-treesitter/nvim-treesitter) for better dimming.
