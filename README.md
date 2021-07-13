@@ -1,11 +1,14 @@
 # 🌅 Twilight
 
-**Twilight** is a Lua plugin for Neovim 0.5 that only highlights the code under the cursor and dims the rest.
+**Twilight** is a Lua plugin for Neovim 0.5 that dims inactive portions of the code you're editing.
 
 The plugin was heavily inspired by [Limelight](https://github.com/junegunn/limelight.vim),
 but uses [TreeSitter](https://github.com/nvim-treesitter/nvim-treesitter) for better dimming.
 
 Pairs well with [zen-mode](https://github.com/folke/zen-mode.nvim).
+
+![image](https://user-images.githubusercontent.com/292349/125419804-051321c2-d040-41c8-93fc-834b5f1098e3.png)
+
 
 ## ⚡️ Requirements
 
@@ -48,7 +51,7 @@ EOF
 
 ## ⚙️ Configuration
 
-Todo comes with the following defaults:
+Twilight comes with the following defaults:
 
 ```lua
 {
@@ -78,7 +81,7 @@ You can manually trigger **Twilight** using the commands:
 - `TwilightEnable`: enable twilight
 - `TwilightDisable`: disable twilight
 
-### Zen Mode Integration
+## 🧘 Zen Mode Integration
 
 If you have [zen-mode](https://github.com/folke/zen-mode.nvim) installed, then **Twilight**
 is activated automatically. Refer to the Zen Mode documentation to disable.
