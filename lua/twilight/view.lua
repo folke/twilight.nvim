@@ -1,4 +1,3 @@
-local parsers = require("nvim-treesitter.parsers")
 local config = require("twilight.config")
 
 local M = {}
@@ -137,7 +136,7 @@ function M.get_expand_root(node, opts)
 end
 
 function M.get_context(buf, line)
-  if parsers.get_parser(buf) then
+  if vim.treesitter.get_parser(buf) then
     local node = M.get_node(buf, line)
     local root = M.get_expand_root(node)
     if root then
