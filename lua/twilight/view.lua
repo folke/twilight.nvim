@@ -71,8 +71,18 @@ function M.clear(buf, from, to)
   vim.api.nvim_buf_clear_namespace(buf, ns, from, to)
 end
 
+-- TODO: fooo
 function M.dim(buf, lnum)
-  vim.api.nvim_buf_add_highlight(buf, ns, "Twilight", lnum, 0, -1)
+  -- use extmarks directly so we can set the priority
+  -- do a pcall instead to prevent spurious errors at the end of the doc
+  pcall(vim.api.nvim_buf_set_extmark, buf, ns, lnum, 0, {
+    end_line = lnum + 1,
+    end_col = 0,
+    hl_group = "Twilight",
+    hl_eol = true,
+    priority = 10000,
+  })
+  -- vim.api.nvim_buf_add_highlight(buf, ns, "Twilight", lnum, 0, -1)
 end
 
 function M.range(node)
