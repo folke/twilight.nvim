@@ -15,14 +15,30 @@ function M.enable()
         augroup Twilight
           autocmd!
           autocmd BufWritePost,CursorMoved,CursorMovedI,WinScrolled * lua require("twilight.view").update()
+          autocmd WinEnter * lua require("twilight.view").on_win_enter()
           autocmd BufWritePost * lua vim.defer_fn(function()require("twilight.view").update()end, 0)
           autocmd ColorScheme * lua require("twilight.config").colors()
         augroup end]])
     M.started = true
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      M.update(win)
+    M.on_win_enter()
+  end
+end
+
+function M.on_win_enter()
+  local current = vim.api.nvim_get_current_win()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if win ~= current then
+      if config.options.dimming.inactive then
+        local from, to = M.get_visible(win)
+        for i = from, to do
+          M.dim(vim.api.nvim_win_get_buf(win), i)
+        end
+      else
+        M.update(win)
+      end
     end
   end
+  M.update()
 end
 
 function M.disable()
@@ -238,14 +254,17 @@ function M.update(win)
   end
 end
 
+function M.get_visible(win)
+  local info = vim.fn.getwininfo(win)
+  return info[1].topline, info[1].botline + 1
+end
+
 function M.focus(win, from, to, dimmers)
   if not vim.api.nvim_win_is_valid(win) then
     return
   end
 
-  local info = vim.fn.getwininfo(win)
-  local topline = info[1].topline
-  local botline = info[1].botline + 1
+  local topline, botline = M.get_visible(win)
 
   for l = topline, botline do
     if l < from or l >= to then
