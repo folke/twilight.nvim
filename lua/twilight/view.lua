@@ -19,7 +19,9 @@ function M.enable()
           autocmd ColorScheme * lua require("twilight.config").colors()
         augroup end]])
     M.started = true
-    M.update()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      M.update(win)
+    end
   end
 end
 
@@ -207,8 +209,8 @@ function M.is_valid_buf(buf)
   return true
 end
 
-function M.update()
-  local win = vim.api.nvim_get_current_win()
+function M.update(win)
+  win = win or vim.api.nvim_get_current_win()
 
   if not M.enabled or not vim.api.nvim_win_is_valid(win) then
     return false
