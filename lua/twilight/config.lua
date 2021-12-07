@@ -48,8 +48,13 @@ function M.colors()
     end
   end
   local normal = util.get_hl("Normal")
-  local bg = (normal and normal.background) or "#000000"
-  local dimmed = util.blend(fg, bg, M.options.dimming.alpha)
+  local bg = "#000000" -- fallback to black for bg
+	if normal then 
+	  bg = normal.background or "NONE"
+	end
+  -- use black in blend function if background is NONE
+  local bg_hex = (bg ~= "NONE") and bg or "#000000"
+  local dimmed = util.blend(fg, bg_hex, M.options.dimming.alpha)
   vim.cmd("highlight! def Twilight guifg=" .. dimmed .. " guibg=" .. bg)
 end
 
