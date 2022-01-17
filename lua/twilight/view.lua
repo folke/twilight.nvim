@@ -150,12 +150,17 @@ end
 
 function M.get_expand_root(node, opts)
   opts = opts or {}
+  local left_context = config.options.node_context
   local root
   while node do
     if config.expand[node:type()] then
       if opts.first then
         return node
       end
+      if left_context <= 0 then
+          return node
+      end
+      left_context = left_context - 1
       root = node
     end
     node = node:parent()
