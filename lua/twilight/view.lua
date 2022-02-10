@@ -150,15 +150,23 @@ end
 
 function M.get_expand_root(node, opts)
   opts = opts or {}
+  local left_context = config.options.node_context
   local root
   while node do
     if config.expand[node:type()] then
       if opts.first then
         return node
       end
+      if left_context <= 0 then
+          return node
+      end
+      left_context = left_context - 1
       root = node
     end
     node = node:parent()
+  end
+  if left_context > 0 then
+      return
   end
   return root
 end
@@ -172,6 +180,11 @@ function M.get_context(buf, line)
       return from + 1, to + 2
     end
     local from, to = M.expand(buf, line, line, line)
+
+    if config.options.node_context > 0 then
+      local lcount = vim.api.nvim_buf_line_count(buf)
+      return 2, lcount  + 2
+    end
 
     while to - from < config.options.context do
       local pf, pt, pnode = M.expand(buf, from, to, from - 1)
