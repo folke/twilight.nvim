@@ -70,6 +70,10 @@ Twilight comes with the following defaults:
     "table",
     "if_statement",
   },
+  expand_opts = {
+    -- only expand to minimal scope of nodes in "expand" option
+    minimal_scope = false
+  },
   exclude = {}, -- exclude these filetypes
 }
 ```

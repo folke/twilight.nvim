@@ -153,7 +153,7 @@ function M.get_expand_root(node, opts)
   local root
   while node do
     if config.expand[node:type()] then
-      if opts.first then
+      if opts.minimal_scope then
         return node
       end
       root = node
@@ -166,7 +166,7 @@ end
 function M.get_context(buf, line)
   if config.options.treesitter and pcall(vim.treesitter.get_parser, buf) then
     local node = M.get_node(buf, line)
-    local root = M.get_expand_root(node)
+    local root = M.get_expand_root(node, config.options.expand_opts)
     if root then
       local from, to = M.range(root)
       return from + 1, to + 2
