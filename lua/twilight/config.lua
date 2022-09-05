@@ -50,7 +50,7 @@ function M.colors()
   end
   local normal = util.get_hl("Normal")
   local bg = M.options.dimming.term_bg
-  if normal then 
+  if normal then
     bg = normal.background or "NONE"
   end
   -- use terminal background in blend function if guibg is NONE
