@@ -1,4 +1,4 @@
-*twilight.nvim.txt*       For Neovim >= 0.8.0       Last change: 2023 March 19
+*twilight.nvim.txt*        For Neovim >= 0.8.0        Last change: 2023 May 22
 
 ==============================================================================
 Table of Contents                            *twilight.nvim-table-of-contents*
@@ -25,7 +25,6 @@ Pairs well with zen-mode <https://github.com/folke/zen-mode.nvim>.
 
 REQUIREMENTS                             *twilight.nvim-twilight-requirements*
 
-
 - Neovim >= 0.5.0
 
 
@@ -34,36 +33,18 @@ INSTALLATION                             *twilight.nvim-twilight-installation*
 Install the plugin with your preferred package manager:
 
 
-PACKER ~
+FOLKE ~
 
 >lua
     -- Lua
-    use {
+    {
       "folke/twilight.nvim",
-      config = function()
-        require("twilight").setup {
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          -- refer to the configuration section below
-        }
-      end
-    }
-<
-
-
-VIM-PLUG ~
-
->vim
-    " Vim Script
-    Plug 'folke/twilight.nvim'
-    
-    lua << EOF
-      require("twilight").setup {
+      opts = {
         -- your configuration comes here
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
       }
-    EOF
+    }
 <
 
 
@@ -98,7 +79,6 @@ Twilight comes with the following defaults:
 USAGE                                           *twilight.nvim-twilight-usage*
 
 You can manually trigger **Twilight** using the commands:
-
 
 - `Twilight`toggle twilight
 - `TwilightEnable`enable twilight
