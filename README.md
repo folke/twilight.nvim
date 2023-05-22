@@ -17,35 +17,18 @@ Pairs well with [zen-mode](https://github.com/folke/zen-mode.nvim).
 
 Install the plugin with your preferred package manager:
 
-### [packer](https://github.com/wbthomason/packer.nvim)
+### [folke](https://github.com/folke/lazy.nvim)
 
 ```lua
 -- Lua
-use {
+{
   "folke/twilight.nvim",
-  config = function()
-    require("twilight").setup {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    }
-  end
-}
-```
-
-### [vim-plug](https://github.com/junegunn/vim-plug)
-
-```vim
-" Vim Script
-Plug 'folke/twilight.nvim'
-
-lua << EOF
-  require("twilight").setup {
+  opts = {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
   }
-EOF
+}
 ```
 
 ## ⚙️ Configuration
