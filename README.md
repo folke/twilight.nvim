@@ -17,7 +17,7 @@ Pairs well with [zen-mode](https://github.com/folke/zen-mode.nvim).
 
 Install the plugin with your preferred package manager:
 
-### [folke](https://github.com/folke/lazy.nvim)
+### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 -- Lua
