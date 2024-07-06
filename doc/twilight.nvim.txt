@@ -1,4 +1,4 @@
-*twilight.nvim.txt*     For Neovim >= 0.8.0     Last change: 2023 September 25
+*twilight.nvim.txt*            For Neovim            Last change: 2024 July 06
 
 ==============================================================================
 Table of Contents                            *twilight.nvim-table-of-contents*
@@ -9,6 +9,7 @@ Table of Contents                            *twilight.nvim-table-of-contents*
   - Configuration                       |twilight.nvim-twilight-configuration|
   - Usage                                       |twilight.nvim-twilight-usage|
   - Zen Mode Integration         |twilight.nvim-twilight-zen-mode-integration|
+2. Links                                                 |twilight.nvim-links|
 
 ==============================================================================
 1. Twilight                                           *twilight.nvim-twilight*
