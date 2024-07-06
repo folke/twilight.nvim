@@ -12,4 +12,3 @@ jobs:
     with:
       plugin: twilight.nvim
       repo: folke/twilight.nvim
-      tests: false
