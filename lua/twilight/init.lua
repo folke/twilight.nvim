@@ -1,5 +1,5 @@
-local view = require("twilight.view")
 local config = require("twilight.config")
+local view = require("twilight.view")
 
 local M = {}
 
