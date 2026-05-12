@@ -164,7 +164,8 @@ function M.get_expand_root(node, opts)
 end
 
 function M.get_context(buf, line)
-  if config.options.treesitter and pcall(vim.treesitter.get_parser, buf) then
+  local ok, parser = pcall(vim.treesitter.get_parser, buf)
+  if config.options.treesitter and ok and parser then
     local node = M.get_node(buf, line)
     local root = M.get_expand_root(node)
     if root then
