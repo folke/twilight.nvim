@@ -71,7 +71,6 @@ function M.clear(buf, from, to)
   vim.api.nvim_buf_clear_namespace(buf, ns, from, to)
 end
 
--- TODO: fooo
 function M.dim(buf, lnum)
   -- use extmarks directly so we can set the priority
   -- do a pcall instead to prevent spurious errors at the end of the doc
@@ -82,7 +81,6 @@ function M.dim(buf, lnum)
     hl_eol = true,
     priority = 10000,
   })
-  -- vim.api.nvim_buf_add_highlight(buf, ns, "Twilight", lnum, 0, -1)
 end
 
 function M.range(node)
@@ -90,14 +88,9 @@ function M.range(node)
   return from, to
 end
 
-function M.get_node(buf, line)
+function M.get_node(parser, buf, line)
   local lines = vim.api.nvim_buf_get_lines(buf, line, line + 1, false)
-  local col = lines[1] and (#lines[1] - 1) or 0
-  if col < 0 then
-    col = 0
-  end
-
-  local parser = vim.treesitter.get_parser(buf)
+  local col = math.max(0, lines[1] and (#lines[1] - 1) or 0)
   local ret
   parser:for_each_tree(function(tree)
     if ret then
@@ -106,6 +99,9 @@ function M.get_node(buf, line)
     local root = tree:root()
     if root then
       local node = root:descendant_for_range(line, col, line, col)
+      if not node then
+        return
+      end
       local parent = node:parent()
       while parent and (parent:start() == line or parent:end_() == line) do
         node = parent
@@ -121,20 +117,17 @@ end
 
 function M.is_empty(buf, line)
   local lines = vim.api.nvim_buf_get_lines(buf, line, line + 1, false)
-  if vim.fn.trim(lines[1]) == "" then
-    return true
-  end
-  return false
+  return vim.fn.trim(lines[1]) == ""
 end
 
-function M.expand(buf, from, to, line)
+function M.expand(parser, buf, from, to, line)
   if line < 1 then
     return from, to
   end
   if M.is_empty(buf, line) then
     return math.min(from, line), math.max(to, line)
   end
-  local node = M.get_node(buf, line)
+  local node = M.get_node(parser, buf, line)
   if not node then
     return from, to
   end
@@ -164,40 +157,43 @@ function M.get_expand_root(node, opts)
 end
 
 function M.get_context(buf, line)
-  if config.options.treesitter and pcall(vim.treesitter.get_parser, buf) then
-    local node = M.get_node(buf, line)
-    local root = M.get_expand_root(node)
-    if root then
-      local from, to = M.range(root)
+  local ok, parser = pcall(vim.treesitter.get_parser, buf)
+  if config.options.treesitter and ok and parser then
+    local node = M.get_node(parser, buf, line)
+    if node then
+      local root = M.get_expand_root(node)
+      if root then
+        local from, to = M.range(root)
+        return from + 1, to + 2
+      end
+      local from, to = M.expand(parser, buf, line, line, line)
+
+      while to - from < config.options.context do
+        local pf, pt, pnode = M.expand(parser, buf, from, to, from - 1)
+        local nf, nt, nnode = M.expand(parser, buf, from, to, to + 1)
+
+        local mp = math.max(line - pf, pt - line)
+        local mn = math.max(line - nf, nt - line)
+
+        if (mp < mn) and not (from == pf and to == pt) then
+          from = pf
+          to = pt
+          if pnode and M.get_expand_root(pnode) then
+            break
+          end
+        elseif not (from == nf and to == nt) then
+          from = nf
+          to = nt
+          if nnode and M.get_expand_root(nnode) then
+            break
+          end
+        else
+          break
+        end
+      end
+
       return from + 1, to + 2
     end
-    local from, to = M.expand(buf, line, line, line)
-
-    while to - from < config.options.context do
-      local pf, pt, pnode = M.expand(buf, from, to, from - 1)
-      local nf, nt, nnode = M.expand(buf, from, to, to + 1)
-
-      local mp = math.max(line - pf, pt - line)
-      local mn = math.max(line - nf, nt - line)
-
-      if (mp < mn) and not (from == pf and to == pt) then
-        from = pf
-        to = pt
-        if pnode and M.get_expand_root(pnode) then
-          break
-        end
-      elseif not (from == nf and to == nt) then
-        from = nf
-        to = nt
-        if nnode and M.get_expand_root(nnode) then
-          break
-        end
-      else
-        break
-      end
-    end
-
-    return from + 1, to + 2
   end
 
   local from = line - math.floor(config.options.context / 2)
